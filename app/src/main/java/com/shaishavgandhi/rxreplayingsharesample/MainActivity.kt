@@ -30,20 +30,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        button.setOnClickListener {
-            loadImage()
-        }
-    }
-
-    private fun loadImage() {
-        viewModel.loadBitmap(R.raw.sunset)
+        viewModel.image()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .autoDisposable(scopeProvider)
             .subscribe({ bitmap ->
-               imageView.setImageBitmap(bitmap)
-            }, { error ->
+                imageView.setImageBitmap(bitmap)
+            }, { _ ->})
 
-            })
+        button.setOnClickListener {
+            viewModel.loadImage(R.raw.sunset)
+        }
     }
 }
